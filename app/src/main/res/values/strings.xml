@@ -5,6 +5,13 @@
         <item>Hindi</item>
         <item>Marathi</item>
     </string-array>
+
+    <string-array name="Sex">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
     <string name="title_activity_home">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -19,4 +26,7 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string name="doctorSaysText">DoctorSays</string>
+    <string name="doctorsays_logo_descption">DoctorSays Logo</string>
 </resources>

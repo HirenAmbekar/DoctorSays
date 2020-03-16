@@ -23,7 +23,7 @@
         android:layout_below="@id/doctorSaysLogo"
         android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="true"
-        android:text="DoctorSays"
+        android:text="@string/doctorSaysText"
         android:textColor="@android:color/white"
         android:textSize="30sp" />
 
