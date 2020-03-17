@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registration_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".RegistrationActivity">
+
+    <ImageView
+        android:id="@+id/doctorSaysLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/doctorsays_logo_descption"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+
+    <TextView
+        android:id="@+id/doctorSaysText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doctorSaysLogo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/doctorSaysText"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/doctorSaysText"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:text="Name"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doctorSaysText"
+        android:layout_alignBaseline="@id/name"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="30dp"
+        android:layout_toEndOf="@id/name"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="Sex"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sex"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="Age"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/ageEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/age"
+        android:layout_alignStart="@id/maleCheckBox"
+        android:layout_marginEnd="30dp"
+        android:layout_toEndOf="@id/age"
+        android:ems="10"
+        android:inputType="number"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/bloodGroupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/age"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="Blood Group"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/bloodGroupTextView"
+        android:layout_alignStart="@id/ageEditText"
+        android:layout_marginEnd="30dp"
+        android:layout_toEndOf="@id/bloodGroupTextView"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <CheckBox
+        android:id="@+id/maleCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/sex"
+        android:layout_alignStart="@id/nameEditText"
+        android:text="Male"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/maleCheckBox"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/maleCheckBox"
+        android:text="Female"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</RelativeLayout>

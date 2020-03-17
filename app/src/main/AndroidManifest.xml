@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewQR"></activity>
+        <activity android:name=".CardsAdapter"></activity>
+        <activity android:name=".Cards" />
+        <activity android:name=".NewQR" />
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity
