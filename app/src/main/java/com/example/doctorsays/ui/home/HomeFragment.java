@@ -16,6 +16,8 @@ import com.example.doctorsays.CardsAdapter;
 import com.example.doctorsays.NewQR;
 import com.example.doctorsays.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,8 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CardsAdapter cardsAdapter;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     private ArrayList<Cards> cardsList;
 
@@ -38,6 +42,9 @@ public class HomeFragment extends Fragment {
                 initiateQRCodeScanner();
             }
         });
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
 
         createCardsList();
         buildRecyclerView(root);
