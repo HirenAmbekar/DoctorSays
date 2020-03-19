@@ -1,5 +1,6 @@
 package com.example.doctorsays;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.auth.User;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -42,6 +46,7 @@ public class Home extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
     private AppBarConfiguration mAppBarConfiguration;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onStart() {
@@ -145,4 +150,16 @@ public class Home extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+//    public void addUser() {
+//        String id = user.getUid();
+//        String name = user.getDisplayName();
+//        String age = "21";
+//        String sex = "Male";
+//        String bloodGroup = "O+";
+//
+//        Users users = new Users(id, name,age,sex,bloodGroup);
+//
+//        databaseReference.child(id).setValue(users);
+//    }
 }

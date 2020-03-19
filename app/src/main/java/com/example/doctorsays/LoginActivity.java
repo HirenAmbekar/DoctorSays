@@ -25,6 +25,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 2;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseUser user;
+    DatabaseReference databaseReference;
+
+    Boolean firstTime = false;
 
     @Override
     protected void onStart() {
@@ -52,8 +58,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
+                    if (firstTime) {
+                        user = firebaseAuth.getCurrentUser();
+                        databaseReference = FirebaseDatabase.getInstance().getReference("users");
+                        Users users = new Users(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
+                        System.out.println(user.getPhoneNumber());
+                        databaseReference.child(users.getId()).setValue(users);
+                    }
                     startActivity(new Intent(LoginActivity.this, Home.class));
                     LoginActivity.this.finish();
+                } else {
+                    firstTime = true;
                 }
             }
         };
