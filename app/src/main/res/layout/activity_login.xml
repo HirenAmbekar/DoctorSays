@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_layout"
@@ -10,10 +10,14 @@
 
     <ImageView
         android:id="@+id/doctorSaysLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/doctorSaysText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/googleg_standard_color_18" />
 
     <TextView
@@ -25,7 +29,11 @@
         android:layout_centerHorizontal="true"
         android:text="@string/doctorSaysText"
         android:textColor="@android:color/white"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/googleSignIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/doctorSaysLogo" />
 
     <Button
         android:id="@+id/googleSignIn"
@@ -33,14 +41,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/doctorSaysText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/shape"
         android:drawableLeft="@drawable/googleg_standard_color_18"
         android:drawablePadding="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="LOG IN WITH GOOGLE"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/orText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/doctorSaysText" />
 
     <Button
         android:id="@+id/guestSignIn"
@@ -48,11 +60,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/orText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/shape"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="Register with DoctorSays >" />
+        android:text="Register with DoctorSays >"
+        app:layout_constraintBottom_toTopOf="@+id/logInText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orText" />
 
     <TextView
         android:id="@+id/orText"
@@ -60,10 +76,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/googleSignIn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="OR"
         android:textColor="@android:color/white"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/guestSignIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/googleSignIn" />
 
     <TextView
         android:id="@+id/logInText"
@@ -71,9 +91,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/guestSignIn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="Already on DoctorSays?? Click Here"
-        android:textColor="@android:color/white" />
-</RelativeLayout>
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guestSignIn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,7 +71,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
             super(itemView);
 
             profileImage = itemView.findViewById(R.id.profilePicture);
-            name = itemView.findViewById(R.id.nameTextView);
+            name = itemView.findViewById(R.id.nameCardTextView);
             age = itemView.findViewById(R.id.ageTextView);
             sex = itemView.findViewById(R.id.sexTextView);
             constraintLayout = itemView.findViewById(R.id.cards_constrained_layout);

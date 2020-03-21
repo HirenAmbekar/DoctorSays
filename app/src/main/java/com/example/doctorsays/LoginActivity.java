@@ -61,8 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (firstTime) {
                         user = firebaseAuth.getCurrentUser();
                         databaseReference = FirebaseDatabase.getInstance().getReference("users");
-                        Users users = new Users(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
-                        System.out.println(user.getPhoneNumber());
+                        Users users = new Users(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), user.getPhoneNumber(), "null", "null", "null", "null");
                         databaseReference.child(users.getId()).setValue(users);
                     }
                     startActivity(new Intent(LoginActivity.this, Home.class));

@@ -76,7 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/age" />
 
             <TextView
-                android:id="@+id/nameTextView"
+                android:id="@+id/nameCardTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -97,8 +97,8 @@
                 android:text="TextView"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/nameTextView"
-                app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+                app:layout_constraintStart_toStartOf="@+id/nameCardTextView"
+                app:layout_constraintTop_toBottomOf="@+id/nameCardTextView" />
 
             <TextView
                 android:id="@+id/sexTextView"
