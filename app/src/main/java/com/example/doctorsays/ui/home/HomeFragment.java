@@ -15,9 +15,15 @@ import com.example.doctorsays.Cards;
 import com.example.doctorsays.CardsAdapter;
 import com.example.doctorsays.NewQR;
 import com.example.doctorsays.R;
+import com.example.doctorsays.Users;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -25,10 +31,10 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CardsAdapter cardsAdapter;
-    FirebaseDatabase firebaseDatabase;
+    FirebaseUser user;
     DatabaseReference databaseReference;
 
-    private ArrayList<Cards> cardsList;
+    private ArrayList<Users> cardsList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,28 +49,44 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference.child(user.getUid()).child("patients").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                cardsList.clear();
 
-        createCardsList();
-        buildRecyclerView(root);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Users users = postSnapshot.getValue(Users.class);
+                    cardsList.add(users);
+                }
+
+                buildRecyclerView(root);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         return root;
     }
 
-    private void createCardsList() {
-        cardsList = new ArrayList<>();
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-        cardsList.add(new Cards("12345","12345", "90"));
-    }
+//    private void createCardsList() {
+//        cardsList = new ArrayList<>();
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//        cardsList.add(new Cards("12345","12345", "90"));
+//    }
 
     private void buildRecyclerView(View root) {
         recyclerView = root.findViewById(R.id.recyclerView);

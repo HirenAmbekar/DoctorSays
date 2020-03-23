@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ConfigureProfileActivity"></activity>
+        <activity android:name=".Patients"></activity>
+        <activity android:name=".ConfigureProfileActivity" />
         <activity android:name=".QRDisplayActivity" />
         <activity android:name=".CardsAdapter" />
         <activity android:name=".Cards" />

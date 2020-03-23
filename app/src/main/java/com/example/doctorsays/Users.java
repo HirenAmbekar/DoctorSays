@@ -96,4 +96,8 @@ public class Users {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    public void changeText (String string) {
+        name = string;
+    }
 }

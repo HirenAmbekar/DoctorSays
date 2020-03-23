@@ -28,13 +28,13 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
     }
 
     private Context mCtx;
-    private List<Cards> cardsList;
+    private List<Users> usersList;
     private ConstraintLayout constraintLayout;
 
 
-    public CardsAdapter(Context mCtx, ArrayList<Cards> cardsList) {
+    public CardsAdapter(Context mCtx, ArrayList<Users> usersList) {
         this.mCtx = mCtx;
-        this.cardsList = cardsList;
+        this.usersList = usersList;
     }
 
     @NonNull
@@ -47,19 +47,19 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull CardsViewHolder holder, int position) {
-        Cards cards = cardsList.get(position);
+        Users users = usersList.get(position);
 
         constraintLayout.setMinWidth((mCtx.getResources().getDisplayMetrics().widthPixels)-2);
 
-        holder.name.setText(cards.getName());
-        holder.age.setText(cards.getAge());
-        holder.sex.setText(cards.getSex());
+        holder.name.setText(users.getName());
+        holder.age.setText(users.getAge());
+        holder.sex.setText(users.getSex());
         //holder.levelImage.setImageDrawable(mCtx.getResources().getDrawable(cards.getLevelImage(), null));
     }
 
     @Override
     public int getItemCount() {
-        return cardsList.size();
+        return usersList.size();
     }
 
     public class CardsViewHolder extends RecyclerView.ViewHolder {

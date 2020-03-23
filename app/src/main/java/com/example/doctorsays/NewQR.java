@@ -16,6 +16,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -26,6 +32,8 @@ public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultH
 
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView;
+
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,11 +116,26 @@ public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultH
                 scannerView.resumeCameraPreview(NewQR.this);
             }
         });
-        builder.setNeutralButton("Visit", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
-                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
+//                startActivity(intent);
+                databaseReference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                databaseReference.child(scanResult).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Users users = dataSnapshot.getValue(Users.class);
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+                        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("patients").child(scanResult).setValue(users);
+                        startActivity(new Intent(NewQR.this, Home.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
         builder.setMessage(scanResult);
