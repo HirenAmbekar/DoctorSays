@@ -1,5 +1,6 @@
 package com.example.doctorsays.ui.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doctorsays.Cards;
 import com.example.doctorsays.CardsAdapter;
+import com.example.doctorsays.Home;
 import com.example.doctorsays.NewQR;
+import com.example.doctorsays.PatientProfileActivity;
 import com.example.doctorsays.R;
 import com.example.doctorsays.Users;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -100,7 +105,19 @@ public class HomeFragment extends Fragment {
         cardsAdapter.setOnItemClickListener(new CardsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                changeItem(position, "Changed");
+                //changeItem(position, "Changed");
+                //Statistics
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                removeCardItem(position);
+            }
+
+            @Override
+            public void onContinueClick(int position) {
+                startPatientProfileActivity(position);
+
             }
         });
     }
@@ -108,6 +125,35 @@ public class HomeFragment extends Fragment {
     private void changeItem(int position, String text) {
         cardsList.get(position).changeText(text);
         cardsAdapter.notifyItemChanged(position);
+    }
+
+    public void startPatientProfileActivity (int position) {
+        String id = cardsList.get(position).getId();
+        startActivity(new Intent(getActivity(), PatientProfileActivity.class).putExtra("id", id));
+    }
+
+    public void removeCardItem (final int position) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+        builder.setTitle("Confirmation");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String id = cardsList.get(position).getId();
+                cardsList.remove(position);
+                cardsAdapter.notifyItemRemoved(position);
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+                reference.child(user.getUid()).child("patients").child(id).removeValue();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setMessage("Are you sure, you want to remove the patient??");
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void initiateQRCodeScanner() {

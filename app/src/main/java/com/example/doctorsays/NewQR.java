@@ -128,7 +128,7 @@ public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultH
                         Users users = dataSnapshot.getValue(Users.class);
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
                         reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("patients").child(scanResult).setValue(users);
-                        startActivity(new Intent(NewQR.this, Home.class));
+                        NewQR.this.finish();
                     }
 
                     @Override
