@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +19,15 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.doctorsays.AddressEditActivity;
+import com.example.doctorsays.AgeEditActivity;
+import com.example.doctorsays.BloodGroupEditActivity;
+import com.example.doctorsays.EmailEditActivity;
+import com.example.doctorsays.NameEditActivity;
+import com.example.doctorsays.PhoneEditActivity;
 import com.example.doctorsays.QRDisplayActivity;
 import com.example.doctorsays.R;
+import com.example.doctorsays.SexEditActivity;
 import com.example.doctorsays.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,26 +41,49 @@ public class GalleryFragment extends Fragment {
 
     ImageView profilePicture;
 
-    FirebaseAuth mAuth;
-    FirebaseUser user;
-    Button showQRButton;
-    Users userDatabase;
-    DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private Button showQRButton;
+    private Users userDatabase;
+    private DatabaseReference databaseReference;
+    private TextView emailText, displayText, idText, nameCard, emailCard, phoneCard, addressCard, ageCard, sexCard, bloodGroupCard;
+    private ImageView profilePicImage;
+    private Switch phoneSwitch, addressSwitch, ageSwitch, sexSwitch, bloodGroupSwitch;
+    private Button nameEditButton, emailEditButton, addressEditButton, phoneEditButton, ageEditButton, sexEditButton, bloodGroupEditButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
+        emailText = root.findViewById(R.id.emailTextView);
+        displayText = root.findViewById(R.id.displayNameTextView);
+        idText = root.findViewById(R.id.idTextView);
+        profilePicImage = root.findViewById(R.id.profilePictureImageView);
         showQRButton = root.findViewById(R.id.showQRButton);
 
-        showQRButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), QRDisplayActivity.class));
-            }
-        });
+        nameCard = root.findViewById(R.id.nameCardTextView);
+        emailCard = root.findViewById(R.id.emailCardTextView);
+        phoneCard = root.findViewById(R.id.phoneCardTextView);
+        addressCard = root.findViewById(R.id.addressCardTextView);
+        ageCard = root.findViewById(R.id.ageCardTextView);
+        sexCard = root.findViewById(R.id.sexCardTextView);
+        bloodGroupCard = root.findViewById(R.id.bloodGroupCardTextView);
 
+        phoneSwitch = root.findViewById(R.id.phoneNumberSwitch);
+        addressSwitch = root.findViewById(R.id.addressSwitch);
+        ageSwitch = root.findViewById(R.id.ageSwitch);
+        sexSwitch = root.findViewById(R.id.sexSwitch);
+        bloodGroupSwitch = root.findViewById(R.id.bloodGroupSwitch);
+
+        nameEditButton = root.findViewById(R.id.nameEditButton);
+        emailEditButton = root.findViewById(R.id.emailEditButton);
+        addressEditButton = root.findViewById(R.id.addressEditButton);
+        phoneEditButton = root.findViewById(R.id.phoneEditButton);
+        ageEditButton = root.findViewById(R.id.ageEditButton);
+        sexEditButton = root.findViewById(R.id.sexEditButton);
+        bloodGroupEditButton = root.findViewById(R.id.bloodGroupEditButton);
+
+        mAuth = FirebaseAuth.getInstance();
         Toast.makeText(getContext(), "Im outside", Toast.LENGTH_LONG).show();
 
         //User details
@@ -75,25 +107,16 @@ public class GalleryFragment extends Fragment {
                     String age = userDatabase.getAge();
                     String sex = userDatabase.getSex();
                     String bloodGroup = userDatabase.getBloodGroup();
-
-
-                    TextView emailText = root.findViewById(R.id.emailTextView);
-                    TextView displayText = root.findViewById(R.id.displayNameTextView);
-                    TextView idText = root.findViewById(R.id.idTextView);
-                    ImageView profilePicImage = root.findViewById(R.id.profilePictureImageView);
+                    boolean phoneVisible = userDatabase.isPhoneVisible();
+                    boolean addressVisible = userDatabase.isAddressVisible();
+                    boolean ageVisible = userDatabase.isAgeVisible();
+                    boolean sexVisible = userDatabase.isSexVisible();
+                    boolean bloodGroupVisible = userDatabase.isBloodGroupVisible();
 
                     emailText.setText(email);
                     displayText.setText(name);
                     idText.setText(id);
                     Glide.with(root.getContext()).load(profilePic).apply(RequestOptions.circleCropTransform()).into(profilePicImage);
-
-                    TextView nameCard = root.findViewById(R.id.nameCardTextView);
-                    TextView emailCard = root.findViewById(R.id.emailCardTextView);
-                    TextView phoneCard = root.findViewById(R.id.phoneCardTextView);
-                    TextView addressCard = root.findViewById(R.id.addressCardTextView);
-                    TextView ageCard = root.findViewById(R.id.ageCardTextView);
-                    TextView sexCard = root.findViewById(R.id.sexCardTextView);
-                    TextView bloodGroupCard = root.findViewById(R.id.bloodGroupCardTextView);
 
                     nameCard.setText(name);
                     emailCard.setText(email);
@@ -102,6 +125,12 @@ public class GalleryFragment extends Fragment {
                     ageCard.setText(age);
                     sexCard.setText(sex);
                     bloodGroupCard.setText(bloodGroup);
+
+                    phoneSwitch.setChecked(phoneVisible);
+                    addressSwitch.setChecked(addressVisible);
+                    ageSwitch.setChecked(ageVisible);
+                    sexSwitch.setChecked(sexVisible);
+                    bloodGroupSwitch.setChecked(bloodGroupVisible);
                 }
             }
 
@@ -112,6 +141,124 @@ public class GalleryFragment extends Fragment {
         });
 
 
+        showQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), QRDisplayActivity.class));
+            }
+        });
+
+
+        phoneSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                if (phoneSwitch.isChecked()) {
+                    reference.child(user.getUid()).child("phoneNumber").setValue(userDatabase.getPhoneNumber());
+                } else {
+                    reference.child(user.getUid()).child("phoneNumber").setValue("Not Visible");
+                }
+            }
+        });
+
+        addressSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                if (addressSwitch.isChecked()) {
+                    reference.child(user.getUid()).child("address").setValue(userDatabase.getAddress());
+                } else {
+                    reference.child(user.getUid()).child("address").setValue("Not Visible");
+                }
+            }
+        });
+
+        ageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                if (ageSwitch.isChecked()) {
+                    reference.child(user.getUid()).child("age").setValue(userDatabase.getAge());
+                } else {
+                    reference.child(user.getUid()).child("age").setValue("Not Visible");
+                }
+            }
+        });
+
+        sexSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                if (sexSwitch.isChecked()) {
+                    reference.child(user.getUid()).child("sex").setValue(userDatabase.getSex());
+                } else {
+                    reference.child(user.getUid()).child("sex").setValue("Not Visible");
+                }
+            }
+        });
+
+        bloodGroupSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                if (bloodGroupSwitch.isChecked()) {
+                    reference.child(user.getUid()).child("bloodGroup").setValue(userDatabase.getBloodGroup());
+                } else {
+                    reference.child(user.getUid()).child("bloodGroup").setValue("Not Visible");
+                }
+            }
+        });
+
+
+        //Edit section
+        nameEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), NameEditActivity.class));
+            }
+        });
+
+        emailEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), EmailEditActivity.class));
+            }
+        });
+
+        phoneEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PhoneEditActivity.class));
+            }
+        });
+
+        addressEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddressEditActivity.class));
+            }
+        });
+
+        ageEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AgeEditActivity.class));
+            }
+        });
+
+        sexEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SexEditActivity.class));
+            }
+        });
+
+        bloodGroupEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), BloodGroupEditActivity.class));
+            }
+        });
 
         return root;
     }

@@ -14,7 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PatientProfileActivity"></activity>
+        <activity android:name=".BloodGroupEditActivity"/>
+        <activity android:name=".SexEditActivity" />
+        <activity android:name=".AgeEditActivity" />
+        <activity android:name=".AddressEditActivity" />
+        <activity android:name=".PhoneEditActivity" />
+        <activity android:name=".EmailEditActivity" />
+        <activity android:name=".NameEditActivity" />
+        <activity android:name=".PatientProfileActivity" />
         <activity android:name=".ConfigureProfileActivity" />
         <activity android:name=".QRDisplayActivity" />
         <activity android:name=".CardsAdapter" />

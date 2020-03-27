@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -18,6 +19,7 @@ import com.example.doctorsays.CardsAdapter;
 import com.example.doctorsays.Home;
 import com.example.doctorsays.NewQR;
 import com.example.doctorsays.PatientProfileActivity;
+import com.example.doctorsays.PublicUser;
 import com.example.doctorsays.R;
 import com.example.doctorsays.Users;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
@@ -37,13 +40,16 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private CardsAdapter cardsAdapter;
     FirebaseUser user;
-    DatabaseReference databaseReference;
+    View root;
 
-    private ArrayList<Users> cardsList = new ArrayList<>();
+    DatabaseReference databaseReference1;
+    DatabaseReference databaseReference2;
+
+    private ArrayList<PublicUser> cardsList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.fragment_home, container, false);
+                             final ViewGroup container, Bundle savedInstanceState) {
+        root = inflater.inflate(R.layout.fragment_home, container, false);
 
         FloatingActionButton button;
         button = root.findViewById(R.id.addNewPatientButton);
@@ -54,20 +60,22 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        FloatingActionButton refreshButton;
+        refreshButton = root.findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshRecyclerView();
+            }
+        });
+
+
         user = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        databaseReference.child(user.getUid()).child("patients").addValueEventListener(new ValueEventListener() {
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference1.child(user.getUid()).child("patients").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                cardsList.clear();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Users users = postSnapshot.getValue(Users.class);
-                    cardsList.add(users);
-                }
-
-                buildRecyclerView(root);
-
+                refreshRecyclerView();
             }
 
             @Override
@@ -79,6 +87,38 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private void refreshRecyclerView() {
+        databaseReference1 = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference1.child(user.getUid()).child("patients").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                cardsList.clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String userID = postSnapshot.getValue(String.class);
+                    databaseReference2 = FirebaseDatabase.getInstance().getReference("public_user_data");
+                    databaseReference2.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            PublicUser publicUser = dataSnapshot.getValue(PublicUser.class);
+                            cardsList.add(publicUser);
+                            buildRecyclerView(root);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 //    private void createCardsList() {
 //        cardsList = new ArrayList<>();
 //        cardsList.add(new Cards("12345","12345", "90"));

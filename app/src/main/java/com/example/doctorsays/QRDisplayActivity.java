@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -14,6 +17,8 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class QRDisplayActivity extends AppCompatActivity {
 
+    FirebaseUser user;
+
     ImageView qrImageView;
 
     @Override
@@ -21,9 +26,11 @@ public class QRDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_q_r_display);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         qrImageView = findViewById(R.id.qrImageView);
 
-        String text="Hiren Ambekar\n8104837750"; // Whatever you need to encode in the QR code
+        String text = user.getUid();
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE,200,200);

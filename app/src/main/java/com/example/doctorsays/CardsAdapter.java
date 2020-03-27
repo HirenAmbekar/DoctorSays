@@ -35,11 +35,11 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
     }
 
     private Context mCtx;
-    private List<Users> usersList;
+    private List<PublicUser> usersList;
     private ConstraintLayout constraintLayout;
 
 
-    public CardsAdapter(Context mCtx, ArrayList<Users> usersList) {
+    public CardsAdapter(Context mCtx, ArrayList<PublicUser> usersList) {
         this.mCtx = mCtx;
         this.usersList = usersList;
     }
@@ -54,7 +54,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull CardsViewHolder holder, int position) {
-        Users users = usersList.get(position);
+        PublicUser users = usersList.get(position);
 
         constraintLayout.setMinWidth((mCtx.getResources().getDisplayMetrics().widthPixels)-2);
 

@@ -20,13 +20,19 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,18 +64,29 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    if (firstTime) {
-                        user = firebaseAuth.getCurrentUser();
-                        databaseReference = FirebaseDatabase.getInstance().getReference("users");
-                        Users users = new Users(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), user.getPhoneNumber(), "null", "null", "null", "null");
-                        databaseReference.child(users.getId()).setValue(users);
-                        databaseReference = FirebaseDatabase.getInstance().getReference("public_user_data");
-                        databaseReference.child(users.getId()).setValue(users);
-                    }
-                    startActivity(new Intent(LoginActivity.this, Home.class));
-                    LoginActivity.this.finish();
-                } else {
-                    firstTime = true;
+                    user = firebaseAuth.getCurrentUser();
+                    databaseReference = FirebaseDatabase.getInstance().getReference("users");
+                    databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                                PublicUser publicUser = new PublicUser(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), "null", "null", "null", "null", "null");
+                                reference.child(publicUser.getId()).setValue(publicUser);
+                                reference = FirebaseDatabase.getInstance().getReference("users");
+                                Users users = new Users(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), "null", "null", "null", "null", "null",
+                                        false, false, false, false, false);
+                                reference.child(users.getId()).setValue(users);
+                            }
+                            startActivity(new Intent(LoginActivity.this, Home.class));
+                            LoginActivity.this.finish();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
         };

@@ -34,6 +34,7 @@ public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultH
     private ZXingScannerView scannerView;
 
     DatabaseReference databaseReference;
+    PublicUser publicUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,38 +109,66 @@ public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultH
     @Override
     public void handleResult(Result result) {
         final String scanResult = result.getText();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scan Result");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("public_user_data");
+        databaseReference.child(scanResult).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                scannerView.resumeCameraPreview(NewQR.this);
-            }
-        });
-        builder.setNeutralButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(scanResult));
-//                startActivity(intent);
-                databaseReference = FirebaseDatabase.getInstance().getReference("public_user_data");
-                databaseReference.child(scanResult).addValueEventListener(new ValueEventListener() {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                publicUser = dataSnapshot.getValue(PublicUser.class);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(NewQR.this);
+                builder.setTitle("Scan Result");
+                builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Users users = dataSnapshot.getValue(Users.class);
+                    public void onClick(DialogInterface dialog, int which) {
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-                        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("patients").child(scanResult).setValue(users);
-                        NewQR.this.finish();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("patients").child(scanResult).setValue(scanResult);
+                        startActivity(new Intent(NewQR.this, Home.class));
+                        NewQR.this.finishAffinity();
                     }
                 });
+                builder.setNeutralButton("END", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(NewQR.this, Home.class));
+                        NewQR.this.finishAffinity();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        scannerView.resumeCameraPreview(NewQR.this);
+                    }
+                });
+                builder.setMessage(publicUser.getName() + "\n" + publicUser.getAge() + "\n" + publicUser.getSex());
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-        builder.setMessage(scanResult);
-        AlertDialog alert = builder.create();
-        alert.show();
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Scan Result");
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                scannerView.resumeCameraPreview(NewQR.this);
+//            }
+//        });
+//        builder.setNeutralButton("Add", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                databaseReference = FirebaseDatabase.getInstance().getReference("users");
+//                databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("patients").child(scanResult).setValue(users);
+//                NewQR.this.finish();
+//            }
+//        });
+//        builder.setMessage(users.getName());
+//        AlertDialog alert = builder.create();
+//        alert.show();
     }
 }
