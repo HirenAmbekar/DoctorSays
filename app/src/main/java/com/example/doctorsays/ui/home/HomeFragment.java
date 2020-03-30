@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.example.doctorsays.NewQR;
 import com.example.doctorsays.PatientProfileActivity;
 import com.example.doctorsays.PublicUser;
 import com.example.doctorsays.R;
+import com.example.doctorsays.TestActivity;
 import com.example.doctorsays.Users;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +46,7 @@ public class HomeFragment extends Fragment {
 
     DatabaseReference databaseReference1;
     DatabaseReference databaseReference2;
+    ProgressBar progressBar;
 
     private ArrayList<PublicUser> cardsList = new ArrayList<>();
 
@@ -65,7 +68,10 @@ public class HomeFragment extends Fragment {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar = root.findViewById(R.id.homeFragmentProgressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 refreshRecyclerView();
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -75,7 +81,10 @@ public class HomeFragment extends Fragment {
         databaseReference1.child(user.getUid()).child("patients").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progressBar = root.findViewById(R.id.homeFragmentProgressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 refreshRecyclerView();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

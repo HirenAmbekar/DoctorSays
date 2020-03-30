@@ -66,7 +66,7 @@ public class Users {
         this.name = name;
         this.email = email;
         this.photoUrl = photoUrl;
-        if (phoneNumber == null) {
+        if (phoneNumber == "null") {
             this.phoneNumber = "Not Visible";
         } else {
             this.phoneNumber = phoneNumber;
@@ -120,6 +120,58 @@ public class Users {
     public String getPhotoUrl() {
         return photoUrl;
     }
+
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public void setPhoneNumber(String phoneNumber) {
+//        this.phoneNumber = phoneNumber;
+//    }
+//
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+//
+//    public void setAge(String age) {
+//        this.age = age;
+//    }
+//
+//    public void setSex(String sex) {
+//        this.sex = sex;
+//    }
+//
+//    public void setBloodGroup(String bloodGroup) {
+//        this.bloodGroup = bloodGroup;
+//    }
+//
+//    public void setPhotoUrl(String photoUrl) {
+//        this.photoUrl = photoUrl;
+//    }
+//
+//    public void setPhoneVisible(boolean phoneVisible) {
+//        this.phoneVisible = phoneVisible;
+//    }
+//
+//    public void setAddressVisible(boolean addressVisible) {
+//        this.addressVisible = addressVisible;
+//    }
+//
+//    public void setAgeVisible(boolean ageVisible) {
+//        this.ageVisible = ageVisible;
+//    }
+//
+//    public void setSexVisible(boolean sexVisible) {
+//        this.sexVisible = sexVisible;
+//    }
+//
+//    public void setBloodGroupVisible(boolean bloodGroupVisible) {
+//        this.bloodGroupVisible = bloodGroupVisible;
+//    }
 
     public String getBloodGroup() {
         return bloodGroup;

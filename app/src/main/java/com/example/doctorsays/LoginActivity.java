@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
     DatabaseReference databaseReference;
+    ProgressBar progressBar;
 
     Boolean firstTime = false;
 
@@ -64,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
+                    progressBar = findViewById(R.id.progressBar);
+                    progressBar.setVisibility(View.VISIBLE);
                     user = firebaseAuth.getCurrentUser();
                     databaseReference = FirebaseDatabase.getInstance().getReference("users");
                     databaseReference.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -79,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                                 reference.child(users.getId()).setValue(users);
                             }
                             startActivity(new Intent(LoginActivity.this, Home.class));
+                            progressBar.setVisibility(View.GONE);
                             LoginActivity.this.finish();
                         }
 

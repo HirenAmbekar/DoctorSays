@@ -61,12 +61,12 @@
                 android:textColor="@color/common_google_signin_btn_text_light_default"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/emailTextView"
+                app:layout_constraintBottom_toTopOf="@+id/textView13"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profilePictureBackImageView" />
 
             <TextView
-                android:id="@+id/emailTextView"
+                android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -86,7 +86,7 @@
                 android:textColor="@color/common_google_signin_btn_text_light_focused"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
             <Button
                 android:id="@+id/showQRButton"
@@ -103,17 +103,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_menu_manage" />
 
     <ScrollView
         android:id="@+id/profileScrollView"
@@ -159,7 +148,7 @@
 
                     <TextView
                         android:id="@+id/nameCardTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
@@ -230,7 +219,7 @@
 
                     <TextView
                         android:id="@+id/emailCardTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
@@ -240,7 +229,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/textView18"
-                        app:layout_constraintEnd_toStartOf="@+id/emailEditButton"
+                        app:layout_constraintEnd_toStartOf="@+id/emailSendButton"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/imageView5"
                         app:layout_constraintTop_toTopOf="parent"
@@ -259,7 +248,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/emailCardTextView" />
 
                     <Button
-                        android:id="@+id/emailEditButton"
+                        android:id="@+id/emailSendButton"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginEnd="8dp"
@@ -300,7 +289,7 @@
 
                     <TextView
                         android:id="@+id/phoneCardTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
@@ -329,7 +318,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/phoneCardTextView" />
 
                     <Button
-                        android:id="@+id/phoneEditButton"
+                        android:id="@+id/phoneCallButton"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginEnd="8dp"
@@ -347,7 +336,7 @@
                         android:checked="false"
                         android:text="Public"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/phoneEditButton"
+                        app:layout_constraintEnd_toStartOf="@+id/phoneCallButton"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -381,7 +370,7 @@
 
                     <TextView
                         android:id="@+id/addressCardTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
@@ -462,7 +451,7 @@
 
                     <TextView
                         android:id="@+id/ageCardTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
@@ -542,7 +531,7 @@
 
                     <TextView
                         android:id="@+id/sexCardTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
@@ -623,7 +612,7 @@
 
                     <TextView
                         android:id="@+id/bloodGroupCardTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"

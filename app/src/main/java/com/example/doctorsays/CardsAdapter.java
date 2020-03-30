@@ -80,7 +80,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
 
             profileImage = itemView.findViewById(R.id.profilePicture);
             name = itemView.findViewById(R.id.nameCardTextView);
-            age = itemView.findViewById(R.id.ageTextView);
+            age = itemView.findViewById(R.id.textView13);
             sex = itemView.findViewById(R.id.sexTextView);
             deleteButton = itemView.findViewById(R.id.deleteButton);
             continueButton = itemView.findViewById(R.id.continueButton);

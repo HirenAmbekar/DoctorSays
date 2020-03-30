@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.doctorsays">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -14,14 +17,68 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BloodGroupEditActivity"/>
-        <activity android:name=".SexEditActivity" />
-        <activity android:name=".AgeEditActivity" />
-        <activity android:name=".AddressEditActivity" />
-        <activity android:name=".PhoneEditActivity" />
-        <activity android:name=".EmailEditActivity" />
-        <activity android:name=".NameEditActivity" />
-        <activity android:name=".PatientProfileActivity" />
+        <activity
+            android:name=".TestActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_test"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".BloodGroupEditActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+        <activity
+            android:name=".SexEditActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+        <activity
+            android:name=".AgeEditActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+        <activity
+            android:name=".AddressEditActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+        <activity
+            android:name=".PhoneEditActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+        <activity
+            android:name=".EmailEditActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+        <activity
+            android:name=".NameEditActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+        <activity
+            android:name=".PatientProfileActivity"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home"/>
+        </activity>
+
         <activity android:name=".ConfigureProfileActivity" />
         <activity android:name=".QRDisplayActivity" />
         <activity android:name=".CardsAdapter" />

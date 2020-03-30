@@ -1,7 +1,6 @@
 package com.example.doctorsays.ui.gallery;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,8 +38,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class GalleryFragment extends Fragment {
 
-    ImageView profilePicture;
-
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private Button showQRButton;
@@ -55,7 +52,7 @@ public class GalleryFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        emailText = root.findViewById(R.id.emailTextView);
+        emailText = root.findViewById(R.id.textView13);
         displayText = root.findViewById(R.id.displayNameTextView);
         idText = root.findViewById(R.id.idTextView);
         profilePicImage = root.findViewById(R.id.profilePictureImageView);
@@ -76,9 +73,9 @@ public class GalleryFragment extends Fragment {
         bloodGroupSwitch = root.findViewById(R.id.bloodGroupSwitch);
 
         nameEditButton = root.findViewById(R.id.nameEditButton);
-        emailEditButton = root.findViewById(R.id.emailEditButton);
+        emailEditButton = root.findViewById(R.id.emailSendButton);
         addressEditButton = root.findViewById(R.id.addressEditButton);
-        phoneEditButton = root.findViewById(R.id.phoneEditButton);
+        phoneEditButton = root.findViewById(R.id.phoneCallButton);
         ageEditButton = root.findViewById(R.id.ageEditButton);
         sexEditButton = root.findViewById(R.id.sexEditButton);
         bloodGroupEditButton = root.findViewById(R.id.bloodGroupEditButton);
@@ -153,10 +150,13 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                 if (phoneSwitch.isChecked()) {
                     reference.child(user.getUid()).child("phoneNumber").setValue(userDatabase.getPhoneNumber());
+                    ref.child(user.getUid()).child("phoneVisible").setValue(true);
                 } else {
                     reference.child(user.getUid()).child("phoneNumber").setValue("Not Visible");
+                    ref.child(user.getUid()).child("phoneVisible").setValue(false);
                 }
             }
         });
@@ -165,10 +165,13 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                 if (addressSwitch.isChecked()) {
                     reference.child(user.getUid()).child("address").setValue(userDatabase.getAddress());
+                    ref.child(user.getUid()).child("addressVisible").setValue(true);
                 } else {
                     reference.child(user.getUid()).child("address").setValue("Not Visible");
+                    ref.child(user.getUid()).child("addressVisible").setValue(false);
                 }
             }
         });
@@ -177,10 +180,13 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                 if (ageSwitch.isChecked()) {
                     reference.child(user.getUid()).child("age").setValue(userDatabase.getAge());
+                    ref.child(user.getUid()).child("ageVisible").setValue(true);
                 } else {
                     reference.child(user.getUid()).child("age").setValue("Not Visible");
+                    ref.child(user.getUid()).child("ageVisible").setValue(false);
                 }
             }
         });
@@ -189,10 +195,13 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                 if (sexSwitch.isChecked()) {
                     reference.child(user.getUid()).child("sex").setValue(userDatabase.getSex());
+                    ref.child(user.getUid()).child("sexVisible").setValue(true);
                 } else {
                     reference.child(user.getUid()).child("sex").setValue("Not Visible");
+                    ref.child(user.getUid()).child("sexVisible").setValue(false);
                 }
             }
         });
@@ -201,10 +210,13 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                 if (bloodGroupSwitch.isChecked()) {
                     reference.child(user.getUid()).child("bloodGroup").setValue(userDatabase.getBloodGroup());
+                    ref.child(user.getUid()).child("bloodGroupVisible").setValue(true);
                 } else {
                     reference.child(user.getUid()).child("bloodGroup").setValue("Not Visible");
+                    ref.child(user.getUid()).child("bloodGroupVisible").setValue(false);
                 }
             }
         });
