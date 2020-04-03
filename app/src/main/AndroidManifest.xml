@@ -7,8 +7,8 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".CreatePrescriptionActivity"
+            android:parentActivityName=".PatientProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PatientProfileActivity" />
+        </activity>
         <activity
             android:name=".TestActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -27,58 +34,57 @@
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".SexEditActivity"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".AgeEditActivity"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".AddressEditActivity"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".PhoneEditActivity"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".EmailEditActivity"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".NameEditActivity"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".PatientProfileActivity"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home"/>
+                android:value=".Home" />
         </activity>
-
         <activity android:name=".ConfigureProfileActivity" />
         <activity android:name=".QRDisplayActivity" />
         <activity android:name=".CardsAdapter" />
@@ -100,6 +106,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+        
+        <provider
+            android:authorities="com.example.doctorsays.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:name="androidx.core.content.FileProvider">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

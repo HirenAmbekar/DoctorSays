@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,12 +30,13 @@ public class PatientProfileActivity extends AppCompatActivity {
     ImageView profileImageView;
     TextView nameTextView, nameCardTextView, ageTextView, ageCardTextView, sexTextView, sexCardTextView, addressCardTextView, phoneCardTextView, emailCardTextView, bloodGroupCardTextView;
     Button phoneCallButton, emailSendButton;
+    FloatingActionButton startActionsButton, voicePrescriptionButton, fileUploadButton, cancelActionsButton;
     PublicUser publicUser;
     String publicUserID;
     DatabaseReference databaseReference;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_profile);
         getSupportActionBar().setTitle("Profile");
@@ -56,6 +58,10 @@ public class PatientProfileActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profilePictureImageView);
         phoneCallButton = findViewById(R.id.phoneCallButton);
         emailSendButton = findViewById(R.id.emailSendButton);
+        startActionsButton = findViewById(R.id.startActionsButton);
+        voicePrescriptionButton = findViewById(R.id.voicePrescriptionButton);
+        fileUploadButton = findViewById(R.id.fileUploadButton);
+        cancelActionsButton = findViewById(R.id.cancelActionsButton);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("public_user_data");
         databaseReference.child(publicUserID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -104,6 +110,33 @@ public class PatientProfileActivity extends AppCompatActivity {
 
                 /* Send it off to the Activity-Chooser */
                 PatientProfileActivity.this.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            }
+        });
+
+        startActionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                voicePrescriptionButton.setVisibility(View.VISIBLE);
+                fileUploadButton.setVisibility(View.VISIBLE);
+                cancelActionsButton.setVisibility(View.VISIBLE);
+                startActionsButton.setVisibility(View.GONE);
+            }
+        });
+
+        cancelActionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                voicePrescriptionButton.setVisibility(View.GONE);
+                fileUploadButton.setVisibility(View.GONE);
+                cancelActionsButton.setVisibility(View.GONE);
+                startActionsButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        voicePrescriptionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PatientProfileActivity.this, CreatePrescriptionActivity.class).putExtra("id", publicUserID));
             }
         });
 

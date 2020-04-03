@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class GalleryFragment extends Fragment {
     private ImageView profilePicImage;
     private Switch phoneSwitch, addressSwitch, ageSwitch, sexSwitch, bloodGroupSwitch;
     private Button nameEditButton, emailEditButton, addressEditButton, phoneEditButton, ageEditButton, sexEditButton, bloodGroupEditButton;
+    ProgressBar progressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -80,8 +82,9 @@ public class GalleryFragment extends Fragment {
         sexEditButton = root.findViewById(R.id.sexEditButton);
         bloodGroupEditButton = root.findViewById(R.id.bloodGroupEditButton);
 
+        progressBar = root.findViewById(R.id.galleryProgressBar);
+
         mAuth = FirebaseAuth.getInstance();
-        Toast.makeText(getContext(), "Im outside", Toast.LENGTH_LONG).show();
 
         //User details
         user = mAuth.getCurrentUser();
@@ -89,12 +92,11 @@ public class GalleryFragment extends Fragment {
         databaseReference.child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progressBar.setVisibility(View.VISIBLE);
 
-                Toast.makeText(getContext(), "Im here done first", Toast.LENGTH_LONG).show();
                 userDatabase = dataSnapshot.getValue(Users.class);
 
                 if (userDatabase != null) {
-                    Toast.makeText(getContext(), "Im here", Toast.LENGTH_LONG).show();
                     String name = userDatabase.getName();
                     String email = userDatabase.getEmail();
                     String id = userDatabase.getId();
@@ -129,6 +131,8 @@ public class GalleryFragment extends Fragment {
                     sexSwitch.setChecked(sexVisible);
                     bloodGroupSwitch.setChecked(bloodGroupVisible);
                 }
+
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

@@ -79,15 +79,8 @@ public class QRDisplayActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_q_r_display);
 
-        if (!Settings.System.canWrite(this)) {
-            QRDisplayActivity.this.onPause();
-            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-            intent.setData(Uri.parse("package:"+this.getPackageName()));
-            startActivity(intent);
-        }
-
         user = FirebaseAuth.getInstance().getCurrentUser();
-
+        qrImageView = findViewById(R.id.qrImageView);
 
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
@@ -106,7 +99,6 @@ public class QRDisplayActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Users users = dataSnapshot.getValue(Users.class);
 
-                qrImageView = findViewById(R.id.qrImageView);
                 profilePictureImageView = findViewById(R.id.profilePictureImageView);
                 profilePictureBackground = findViewById(R.id.profilePictureBackground);
                 nameTextView = findViewById(R.id.nameTextView);
@@ -126,17 +118,18 @@ public class QRDisplayActivity extends AppCompatActivity {
         });
 
 
-
-        ContentResolver contentResolver = this.getContentResolver();
-        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 2500);
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.screenBrightness = 1;
+        getWindow().setAttributes(layoutParams);
 
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        ContentResolver contentResolver = this.getContentResolver();
-        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 250);
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.screenBrightness = 255;
+        getWindow().setAttributes(layoutParams);
         QRDisplayActivity.this.finish();
     }
 }
