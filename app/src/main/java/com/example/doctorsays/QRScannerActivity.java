@@ -1,13 +1,6 @@
 package com.example.doctorsays;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +8,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.zxing.Result;
 
@@ -52,31 +51,26 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permission, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CAMERA :
-                if (grantResults.length > 0) {
-                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted) {
-                        Toast.makeText(QRScannerActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
-                    }else {
-                        Toast.makeText(QRScannerActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (shouldShowRequestPermissionRationale(CAMERA)) {
-                                displayAlertMessage("You need to allow access for both permissions",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    requestPermissions(new String[]{CAMERA}, REQUEST_CAMERA);
-                                                }
-                                            }
-                                        });
-                                return;
-                            }
+        if (requestCode == REQUEST_CAMERA) {
+            if (grantResults.length > 0) {
+                boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                if (cameraAccepted) {
+                    Toast.makeText(QRScannerActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(QRScannerActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale(CAMERA)) {
+                            displayAlertMessage("You need to allow access for both permissions",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            requestPermissions(new String[]{CAMERA}, REQUEST_CAMERA);
+                                        }
+                                    });
                         }
                     }
                 }
-                break;
+            }
         }
     }
 

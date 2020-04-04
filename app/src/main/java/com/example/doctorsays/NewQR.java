@@ -1,20 +1,17 @@
 package com.example.doctorsays;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import android.Manifest;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,9 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import java.util.Objects;
 
-import static android.Manifest.permission_group.CAMERA;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
@@ -92,7 +89,7 @@ public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultH
                 scannerView = new ZXingScannerView(this);
                 setContentView(scannerView);
             }
-            scannerView.setResultHandler((ZXingScannerView.ResultHandler) this);
+            scannerView.setResultHandler(this);
             scannerView.startCamera();
         }else {
             requestPermission();
@@ -122,7 +119,7 @@ public class NewQR extends AppCompatActivity implements ZXingScannerView.ResultH
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-                        reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("patients").child(scanResult).setValue(scanResult);
+                        reference.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).child("patients").child(scanResult).setValue(scanResult);
                         startActivity(new Intent(NewQR.this, Home.class));
                         NewQR.this.finishAffinity();
                     }

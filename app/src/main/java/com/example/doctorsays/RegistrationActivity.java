@@ -1,20 +1,12 @@
 package com.example.doctorsays;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ListPopupWindow;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.PopupWindow;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class RegistrationActivity extends AppCompatActivity {
     private long backPressedTime;

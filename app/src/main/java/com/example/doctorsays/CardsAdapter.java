@@ -69,13 +69,13 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.CardsViewHol
         return usersList.size();
     }
 
-    public class CardsViewHolder extends RecyclerView.ViewHolder {
+    class CardsViewHolder extends RecyclerView.ViewHolder {
 
         ImageView profileImage;
         TextView name, age, sex;
         Button deleteButton, continueButton;
 
-        public CardsViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        CardsViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             profileImage = itemView.findViewById(R.id.profilePicture);

@@ -1,8 +1,5 @@
 package com.example.doctorsays;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +10,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,7 +21,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,8 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     ProgressBar progressBar;
 
-    Boolean firstTime = false;
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -75,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (!dataSnapshot.exists()) {
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_user_data");
-                                PublicUser publicUser = new PublicUser(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), "null", "null", "null", "null", "null");
+                                PublicUser publicUser = new PublicUser(user.getUid(), user.getDisplayName(), user.getEmail(), Objects.requireNonNull(user.getPhotoUrl()).toString(), "null", "null", "null", "null", "null");
                                 reference.child(publicUser.getId()).setValue(publicUser);
                                 reference = FirebaseDatabase.getInstance().getReference("users");
                                 Users users = new Users(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), "null", "null", "null", "null", "null",
@@ -106,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_login);
 
-        signInButton = (Button) findViewById(R.id.googleSignIn);
+        signInButton = findViewById(R.id.googleSignIn);
         mAuth = FirebaseAuth.getInstance();
 
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                assert account != null;
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately

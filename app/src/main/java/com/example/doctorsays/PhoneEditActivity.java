@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class PhoneEditActivity extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference databaseReference;
@@ -29,7 +31,7 @@ public class PhoneEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_edit);
-        getSupportActionBar().setTitle("Edit Phone Number");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Phone Number");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = FirebaseAuth.getInstance().getCurrentUser();

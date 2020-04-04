@@ -85,7 +85,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
-        <activity android:name=".ConfigureProfileActivity" />
         <activity android:name=".QRDisplayActivity" />
         <activity android:name=".CardsAdapter" />
         <activity android:name=".Cards" />

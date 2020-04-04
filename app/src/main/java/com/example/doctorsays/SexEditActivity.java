@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class SexEditActivity extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference databaseReference;
@@ -33,7 +35,7 @@ public class SexEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sex_edit);
-        getSupportActionBar().setTitle("Edit Sex");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Sex");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sexSpinner = findViewById(R.id.sexSpinner);

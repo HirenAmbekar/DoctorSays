@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class AddressEditActivity extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference databaseReference;
@@ -29,7 +31,7 @@ public class AddressEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_edit);
-        getSupportActionBar().setTitle("Edit Address");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Address");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = FirebaseAuth.getInstance().getCurrentUser();

@@ -26,25 +26,25 @@ public class PublicUser {
             this.phoneNumber = phoneNumber;
         }
 
-        if (address == "null") {
+        if (address.equals("null")) {
             this.address = "Not Visible";
         } else {
             this.address = address;
         }
 
-        if (age == "null") {
+        if (age.equals("null")) {
             this.age = "Not Visible";
         } else {
             this.age = age;
         }
 
-        if (sex == "null") {
+        if (sex.equals("null")) {
             this.sex = "Not Visible";
         } else {
             this.sex = sex;
         }
 
-        if (bloodGroup == "null") {
+        if (bloodGroup.equals("null")) {
             this.bloodGroup = "Not Visible";
         } else {
             this.bloodGroup = phoneNumber;

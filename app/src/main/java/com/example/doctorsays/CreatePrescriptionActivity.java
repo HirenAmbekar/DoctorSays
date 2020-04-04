@@ -1,9 +1,5 @@
 package com.example.doctorsays;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +12,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +35,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
@@ -51,10 +49,10 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CreatePrescriptionActivity extends AppCompatActivity {
 
@@ -74,10 +72,10 @@ public class CreatePrescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_prescription);
-        getSupportActionBar().setTitle("Create Prescription");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Create Prescription");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        publicUserID = getIntent().getExtras().getString("id");
+        publicUserID = Objects.requireNonNull(getIntent().getExtras()).getString("id");
 
 
         createPDFButton = findViewById(R.id.createPDFButton);
@@ -100,6 +98,7 @@ public class CreatePrescriptionActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 users = dataSnapshot.getValue(PublicUser.class);
+                assert users != null;
                 nameTextView.setText(users.getName());
                 ageTextView.setText(users.getAge());
                 sexTextView.setText(users.getSex());
@@ -113,7 +112,7 @@ public class CreatePrescriptionActivity extends AppCompatActivity {
         });
 
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(CreatePrescriptionActivity.this,
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(CreatePrescriptionActivity.this,
                 R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.Languages));
         //spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         languageSpinner.setAdapter(spinnerAdapter);
@@ -291,11 +290,7 @@ public class CreatePrescriptionActivity extends AppCompatActivity {
 
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -303,7 +298,8 @@ public class CreatePrescriptionActivity extends AppCompatActivity {
     private void printPDF() {
         PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
         try {
-            PrintDocumentAdapter printDocumentAdapter = new PdfDocumentAdapter(CreatePrescriptionActivity.this, Common.getAppPath(CreatePrescriptionActivity.this) + "test_pdf.pdf");
+            PrintDocumentAdapter printDocumentAdapter = new PdfDocumentAdapter(Common.getAppPath(CreatePrescriptionActivity.this) + "test_pdf.pdf");
+            assert printManager != null;
             printManager.print("Document", printDocumentAdapter, new PrintAttributes.Builder().build());
         }catch (Exception ex) {
             Log.e("DoctorSays", ""+ex.getMessage());

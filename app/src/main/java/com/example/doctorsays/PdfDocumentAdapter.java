@@ -1,6 +1,5 @@
 package com.example.doctorsays;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
@@ -12,19 +11,16 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 class PdfDocumentAdapter extends PrintDocumentAdapter {
 
-    Context context;
-    String path;
+    private String path;
 
-    public PdfDocumentAdapter(Context context, String path) {
-        this.context = context;
+    PdfDocumentAdapter(String path) {
         this.path = path;
     }
 
@@ -62,12 +58,14 @@ class PdfDocumentAdapter extends PrintDocumentAdapter {
             }
         } catch (Exception e) {
             callback.onWriteFailed(e.getMessage());
-            Log.e("DoctorSays", e.getMessage());
+            Log.e("DoctorSays", Objects.requireNonNull(e.getMessage()));
             e.printStackTrace();
         }
         finally {
             try {
+                assert in != null;
                 in.close();
+                assert out != null;
                 out.close();
             } catch (Exception ex) {
                 Log.e("DoctorSays", ""+ex.getMessage());

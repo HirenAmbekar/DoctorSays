@@ -1,32 +1,16 @@
 package com.example.doctorsays;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-
-import android.Manifest;
-import android.content.ContentResolver;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -38,25 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.Result;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
-
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-import static android.graphics.Color.WHITE;
 
 public class QRDisplayActivity extends AppCompatActivity {
 
@@ -104,6 +73,7 @@ public class QRDisplayActivity extends AppCompatActivity {
                 nameTextView = findViewById(R.id.nameTextView);
                 idTextView = findViewById(R.id.idTextView);
 
+                assert users != null;
                 nameTextView.setText(users.getName());
                 idTextView.setText(users.getId());
                 Glide.with(QRDisplayActivity.this).load(Uri.parse(users.getPhotoUrl())).apply(RequestOptions.circleCropTransform()).into(profilePictureImageView);

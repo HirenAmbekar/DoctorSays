@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class EmailEditActivity extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference databaseReference;
@@ -29,7 +31,7 @@ public class EmailEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_edit);
-        getSupportActionBar().setTitle("Edit Email");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Email");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
